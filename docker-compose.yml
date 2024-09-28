@@ -1,0 +1,34 @@
+version: "3.1"
+
+services:
+  db:
+    image: mysql
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - mysql-phpmyadmin
+
+  mongodb:
+    image: mongo
+    restart: always
+    depends_on:
+      - mongo-express
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - mongodb-express
+
+networks:
+  mysql-phpmyadmin:
+  mongodb-express:
+
+volumes:
+  db_data:
